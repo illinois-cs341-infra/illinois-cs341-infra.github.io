@@ -9,6 +9,7 @@ const specs = {
 
 
 let populated = false;
+const linelimit = 40;
 
 document.addEventListener("selectionchange", () => {
     const selection = window.getSelection();
@@ -21,16 +22,14 @@ document.addEventListener("selectionchange", () => {
         lineCount = range.getClientRects().length;
     }
 
-    if (lineCount > 25 && !populated) {
-        console.warn("Populating specs");
+    if (lineCount > linelimit && !populated) {
         populated = true;
         document.querySelectorAll('.spec').forEach(el => {
             const specId = el.getAttribute('data-spec-id');
             if (specs[specId]) el.innerHTML = specs[specId];
         });
     } 
-    else if ((lineCount <= 25 || !hasSelection) && populated) {
-        console.warn("Clearing specs");
+    else if ((lineCount <= linelimit || !hasSelection) && populated) {
         populated = false;
         document.querySelectorAll('.spec').forEach(el => {
             el.innerHTML = "";
